@@ -40,6 +40,10 @@ defmodule Plausible.SiteAdmin do
           %{name: "domain", title: "to domain", default: nil}
         ],
         action: fn _conn, sites, params -> transfer_data(sites, params) end
+      },
+      export_raw_data: %{
+        name: "Export raw data",
+        action: fn _conn, sites -> export_raw_data(sites) end
       }
     ]
   end
@@ -55,6 +59,13 @@ defmodule Plausible.SiteAdmin do
   defp get_other_members_emails(site) do
     memberships = Enum.reject(site.memberships, fn m -> m.role == :owner end)
     Enum.map(memberships, fn m -> m.user.email end) |> Enum.join(", ")
+  end
+
+  def export_raw_data([site]) do
+    IO.inspect(site)
+    IO.inspect(event_export_query(site.domain))
+
+    :ok
   end
 
   def transfer_data([from_site], params) do
@@ -80,6 +91,15 @@ defmodule Plausible.SiteAdmin do
   end
 
   def transfer_data(_, _), do: {:error, "Please select exactly one site for this action"}
+
+  def event_export_query(domain) do
+    fields = get_struct_fields(Plausible.ClickhouseEvent)
+    s3_url = 'wasabi.sys'
+    event_structure = 'timestamp DateTime, domain String, user_id UInt64'
+
+    "INSERT INTO FUNCTION s3('#{s3_url}', 'Native', '#{event_structure}', 'gzip')
+     SELECT " <> stringify_fields(fields) <> " FROM events WHERE domain='#{domain}'"
+  end
 
   def session_transfer_query(from_domain, to_domain) do
     fields = get_struct_fields(Plausible.ClickhouseSession)
