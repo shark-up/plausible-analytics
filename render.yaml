@@ -28,38 +28,38 @@ services:
     plan: standard
     buildCommand: ./build.sh
     startCommand: mix phx.server
-    envVars:
-      - key: ENVIRONMENT
-        value: prod
-      - key: ELIXIR_VERSION
-        value: 1.13.4
-      - key: ERLANG_VERSION
-        value: 24.3.3
-      - key: NODE_VERSION
-        value: 16.3.0
-      - key: PYTHON_VERSION
-        value: 3.9.12
-      - key: DATABASE_URL
-        fromDatabase:
-          # * prefix
-          name: cryptr_plausible_analytics
-          type: pserv
-          property: connectionString
-      - key: SECRET_KEY_BASE
-        generateValue: true
-      - key: POOL_SIZE
-        value: 15
-      - key: CLICKHOUSE_DATABASE_NAME
-        value: plausible_events_db
-      - key: CLICKHOUSE_DATABASE_HOST
-        fromService:
-          type: pserv
-          name: cryptr_plausible_clickhouse_db
-          property: host
-      - key: CLICKHOUSE_DATABASE_PORT
-        fromService:
-          type: pserv
-          name: cryptr_plausible_clickhouse_db
-          property: port
-      - fromGroup: postmark
+    # envVars:
+    #   - key: ENVIRONMENT
+    #     value: prod
+    #   - key: ELIXIR_VERSION
+    #     value: 1.13.4
+    #   - key: ERLANG_VERSION
+    #     value: 24.3.3
+    #   - key: NODE_VERSION
+    #     value: 16.3.0
+    #   - key: PYTHON_VERSION
+    #     value: 3.9.12
+    #   - key: DATABASE_URL
+    #     fromDatabase:
+    #       # * prefix
+    #       name: cryptr_plausible_analytics
+    #       type: pserv
+    #       property: connectionString
+    #   - key: SECRET_KEY_BASE
+    #     generateValue: true
+    #   - key: POOL_SIZE
+    #     value: 15
+    #   - key: CLICKHOUSE_DATABASE_NAME
+    #     value: plausible_events_db
+    #   - key: CLICKHOUSE_DATABASE_HOST
+    #     fromService:
+    #       type: pserv
+    #       name: cryptr_plausible_clickhouse_db
+    #       property: host
+    #   - key: CLICKHOUSE_DATABASE_PORT
+    #     fromService:
+    #       type: pserv
+    #       name: cryptr_plausible_clickhouse_db
+    #       property: port
+    #   - fromGroup: postmark
 
