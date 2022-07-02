@@ -245,21 +245,21 @@ config :plausible, :google,
   client_id: google_cid,
   client_secret: google_secret
 
-plausible_url = if System.get_env("RENDER") == "true", do: "http://#{clickhouse_database_host}:#{clickhouse_database_port}", else: ch_db_url
-|> IO.inspect(label: "plausible_url")
+# plausible_url = if System.get_env("RENDER") == "true", do: "http://#{clickhouse_database_host}:#{clickhouse_database_port}", else: ch_db_url
+# |> IO.inspect(label: "plausible_url")
 
-config :plausible, Plausible.ClickhouseRepo,
-  loggers: [Ecto.LogEntry],
-  queue_target: 500,
-  queue_interval: 2000,
-  # url: plausible_url,
-  hostname: clickhouse_database_host,
-  port: clickhouse_database_port,
-  database: "plausible_events_db",
-  flush_interval_ms: ch_flush_interval_ms,
-  max_buffer_size: ch_max_buffer_size
+# config :plausible, Plausible.ClickhouseRepo,
+#   loggers: [Ecto.LogEntry],
+#   queue_target: 500,
+#   queue_interval: 2000,
+#   # url: plausible_url,
+#   hostname: clickhouse_database_host,
+#   port: clickhouse_database_port,
+#   database: "plausible_events_db",
+#   flush_interval_ms: ch_flush_interval_ms,
+#   max_buffer_size: ch_max_buffer_size
 
-config :example_app, ExampleApp.ClickHouseRepo,
+config :example_app, Plausible.ClickHouseRepo,
     adapter: ClickhouseEcto,
     loggers: [Ecto.LogEntry],
     hostname: clickhouse_database_host,
