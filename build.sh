@@ -11,6 +11,9 @@ npm run deploy --prefix ./tracker
 mix phx.digest priv/static
 echo "✅ Assets"
 
+wget https://s3.eu-central-1.wasabisys.com/plausible-application/geonames.csv -O /priv/geonames.csv
+echo "✅ geonames.csv"
+
 mix download_country_database
 echo "✅ Country Database"
 

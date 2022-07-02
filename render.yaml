@@ -12,6 +12,7 @@ services:
     # * prefix
     name: cryptr_plausible_clickhouse_db
     env: docker
+    dockerfilePath: ./clickhouse/Dockerfile
     plan: standard
     region: frankfurt
     disk:
