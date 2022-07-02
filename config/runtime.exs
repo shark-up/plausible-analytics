@@ -245,10 +245,9 @@ config :plausible, :google,
   client_id: google_cid,
   client_secret: google_secret
 
-if System.get_env("RENDER") == "true", do: raise "we are on render !"
-
 plausible_url = if System.get_env("RENDER") == "true", do: "http://#{clickhouse_database_host}:#{clickhouse_database_port}", else: ch_db_url
 |> IO.inspect(label: "plausible_url")
+
 config :plausible, Plausible.ClickhouseRepo,
   loggers: [Ecto.LogEntry],
   queue_target: 500,
@@ -260,18 +259,18 @@ config :plausible, Plausible.ClickhouseRepo,
   flush_interval_ms: ch_flush_interval_ms,
   max_buffer_size: ch_max_buffer_size
 
-# config :example_app, ExampleApp.ClickHouseRepo,
-#        adapter: ClickhouseEcto,
-#        loggers: [Ecto.LogEntry],
-#        hostname: "localhost",
-#        port: 8123,
-#        database: "example_app",
-#        username: "user",
-#        password: "654321",
-#        timeout: 60_000,
-#        pool_timeout: 60_000,
-#        ownership_timeout: 60_000,
-#        pool_size: 30
+config :example_app, ExampleApp.ClickHouseRepo,
+    adapter: ClickhouseEcto,
+    loggers: [Ecto.LogEntry],
+    hostname: clickhouse_database_host,
+    port: clickhouse_database_port,
+    database: "plausible_events_db",
+    # username: "user",
+    # password: "654321",
+    timeout: 60_000,
+    pool_timeout: 60_000,
+    ownership_timeout: 60_000,
+    pool_size: 30
 
 case mailer_adapter do
   "Bamboo.PostmarkAdapter" ->
