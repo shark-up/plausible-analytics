@@ -245,7 +245,7 @@ config :plausible, :google,
   client_id: google_cid,
   client_secret: google_secret
 
-plausible_url = if System.get_env("RENDER") == "true", do: "http://#{clickhouse_database_host}:#{clickhouse_database_port}/plausible_events_db", else: ch_db_url
+plausible_url = if System.get_env("RENDER") == "true", do: "http://#{clickhouse_database_host}:#{clickhouse_database_port}", else: ch_db_url
 |> IO.inspect(label: "plausible_url")
 config :plausible, Plausible.ClickhouseRepo,
   loggers: [Ecto.LogEntry],
