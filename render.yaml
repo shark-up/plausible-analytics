@@ -1,12 +1,12 @@
 # replace prefix "cryptr_" by "CUSTOMER_NAME_"
-databases:
-  # * prefix
-  - name: cryptr_plausible_analytics
-    databaseName: plausible_prod
-    ipAllowList: []
-    postgresMajorVersion: 13
-    plan: Standard
-    region: franckfurt
+# databases:
+#   # * prefix
+#   - name: cryptr_plausible_analytics
+#     databaseName: plausible_prod
+#     ipAllowList: []
+#     postgresMajorVersion: 13
+#     plan: Standard
+#     region: franckfurt
 # services:
 #   - type: pserv
 #     # * prefix
@@ -62,4 +62,3 @@ databases:
 #           name: cryptr_plausible_clickhouse_db
 #           property: port
 #       - fromGroup: postmark
-
