@@ -2,7 +2,7 @@ databases:
   - name: cryptr_plausible_prod
     postgresMajorVersion: 13
     plan: Standard
-    region: franckfurt
+    region: frankfurt
 # replace prefix "cryptr_" by "CUSTOMER_NAME_"
 # databases:
 #   # * prefix
@@ -11,14 +11,14 @@ databases:
 #     ipAllowList: []
     # postgresMajorVersion: 13
     # plan: Standard
-    # region: franckfurt
+    # region: frankfurt
 # services:
 #   - type: pserv
 #     # * prefix
 #     name: cryptr_plausible_clickhouse_db
 #     env: docker
 #     plan: standard
-#     region: franckfurt
+#     region: frankfurt
 #     disk:
 #       name: data
 #       mountPath: /var/lib/clickhouse
@@ -29,7 +29,7 @@ databases:
 #     env: elixir
 #     repo: https://github.com/shark-up/plausible-analytics.git
 #     branch: render-deployment
-#     region: franckfurt
+#     region: frankfurt
 #     plan: standard
 #     buildCommand: ./build.sh
 #     startCommand: mix phx.server
