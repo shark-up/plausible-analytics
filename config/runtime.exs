@@ -252,7 +252,8 @@ config :plausible, Plausible.ClickhouseRepo,
   loggers: [Ecto.LogEntry],
   queue_target: 500,
   queue_interval: 2000,
-  url: "http://cryptr-plausible-clickhouse-db:8123/plausible_events_db",
+  url: "http://cryptr-plausible-clickhouse-db:8123",
+  database: "plausible_events_db",
   flush_interval_ms: ch_flush_interval_ms,
   max_buffer_size: ch_max_buffer_size
 
