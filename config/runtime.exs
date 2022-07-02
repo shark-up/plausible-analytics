@@ -259,7 +259,7 @@ config :plausible, :google,
 #   flush_interval_ms: ch_flush_interval_ms,
 #   max_buffer_size: ch_max_buffer_size
 
-config :example_app, Plausible.ClickHouseRepo,
+config :plausible, Plausible.ClickHouseRepo,
     adapter: ClickhouseEcto,
     loggers: [Ecto.LogEntry],
     hostname: clickhouse_database_host,
