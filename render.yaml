@@ -20,7 +20,7 @@ services:
       sizeGB: 10
   - type: web
     # * prefix
-    name: cryptr_plausible_clickhouse_db
+    name: cryptr_plausible
     env: elixir
     repo: https://github.com/shark-up/plausible-analytics.git
     branch: render-deployment
