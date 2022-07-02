@@ -24,7 +24,7 @@ listen_ip =
 # System.get_env does not accept a non string default
 port = get_var_from_path_or_env(config_dir, "PORT") || 8000
 
-base_url = get_var_from_path_or_env(config_dir, "BASE_URL")
+base_url = get_var_from_path_or_env(config_dir, "BASE_URL") || System.get_env("RENDER_EXTERNAL_URL")
 
 if !base_url do
   raise "BASE_URL configuration option is required. See https://plausible.io/docs/self-hosting-configuration#server"
@@ -83,6 +83,9 @@ ch_db_url =
     "CLICKHOUSE_DATABASE_URL",
     "http://plausible_events_db:8123/plausible_events_db"
   )
+  clickhouse_database_host = System.get_env("CLICKHOUSE_DATABASE_HOST") # || raise "Render instance needs CLICKHOUSE_DATABASE_HOST var env"
+  clickhouse_database_port = System.get_env("CLICKHOUSE_DATABASE_PORT") # || raise "Render instance needs CLICKHOUSE_DATABASE_PORT var env"
+
 
 {ch_flush_interval_ms, ""} =
   config_dir
@@ -242,11 +245,14 @@ config :plausible, :google,
   client_id: google_cid,
   client_secret: google_secret
 
+plausible_url = false && if System.get_env("RENDER") == "true", do: [host: clickhouse_database_host, port: clickhouse_database_port], else: ch_db_url
+
 config :plausible, Plausible.ClickhouseRepo,
   loggers: [Ecto.LogEntry],
   queue_target: 500,
   queue_interval: 2000,
-  url: ch_db_url,
+  url: plausible_url,
+  database: "plausible_events_db",
   flush_interval_ms: ch_flush_interval_ms,
   max_buffer_size: ch_max_buffer_size
 

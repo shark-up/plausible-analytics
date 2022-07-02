@@ -58,3 +58,4 @@ plausible-report.xml
 # Dializer
 /priv/plts/*.plt
 /priv/plts/*.plt.hash
+priv/geodb/dbip-country.mmdb
