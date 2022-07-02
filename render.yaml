@@ -1,9 +1,6 @@
 databases:
   - name: cryptr_plausible_prod
     postgresMajorVersion: 13
-    plan: Standard
-    region: franckfurt
-    ipAllowList: []
 # replace prefix "cryptr_" by "CUSTOMER_NAME_"
 # databases:
 #   # * prefix
