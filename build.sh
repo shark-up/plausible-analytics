@@ -4,12 +4,6 @@ set -o errexit
 
 echo "🚀 Let's build Plausible for $MIX_ENV"
 
-wget https://s3.eu-central-1.wasabisys.com/plausible-application/geonames.csv
-mv geonames.csv ./priv/geonames.csv
-echo "✅ geonames.csv"
-
-mix download_country_database
-echo "✅ Country Database"
 
 mix deps.get --only prod
 echo "✅ Get deps of Elixir"
@@ -27,5 +21,12 @@ npm run deploy --prefix ./assets
 npm run deploy --prefix ./tracker
 mix phx.digest priv/static
 echo "✅ Assets"
+
+wget https://s3.eu-central-1.wasabisys.com/plausible-application/geonames.csv
+mv geonames.csv ./priv/geonames.csv
+echo "✅ geonames.csv"
+
+mix download_country_database
+echo "✅ Country Database"
 
 echo "✨ Build done ✨"
