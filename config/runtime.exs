@@ -252,11 +252,24 @@ config :plausible, Plausible.ClickhouseRepo,
   queue_target: 500,
   queue_interval: 2000,
   # url: plausible_url,
-  host: clickhouse_database_host,
+  hostname: clickhouse_database_host,
   port: clickhouse_database_port,
   database: "plausible_events_db",
   flush_interval_ms: ch_flush_interval_ms,
   max_buffer_size: ch_max_buffer_size
+
+# config :example_app, ExampleApp.ClickHouseRepo,
+#        adapter: ClickhouseEcto,
+#        loggers: [Ecto.LogEntry],
+#        hostname: "localhost",
+#        port: 8123,
+#        database: "example_app",
+#        username: "user",
+#        password: "654321",
+#        timeout: 60_000,
+#        pool_timeout: 60_000,
+#        ownership_timeout: 60_000,
+#        pool_size: 30
 
 case mailer_adapter do
   "Bamboo.PostmarkAdapter" ->
