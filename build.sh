@@ -18,8 +18,6 @@ echo "✅ geonames.csv"
 mix download_country_database
 echo "✅ Country Database"
 
-mix local.hex --force
-mix local.rebar --force
 mix deps.get --only prod
 echo "✅ Get deps of Elixir"
 
