@@ -245,6 +245,8 @@ config :plausible, :google,
   client_id: google_cid,
   client_secret: google_secret
 
+if System.get_env("RENDER") == "true", do: raise "we are on render !"
+
 plausible_url = if System.get_env("RENDER") == "true", do: "http://#{clickhouse_database_host}:#{clickhouse_database_port}", else: ch_db_url
 |> IO.inspect(label: "plausible_url")
 config :plausible, Plausible.ClickhouseRepo,
