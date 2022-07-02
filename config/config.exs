@@ -28,7 +28,7 @@ config :plausible,
   session_timeout: 1000 * 60 * 30,
   session_length_minutes: 30
 
-# config :plausible, Plausible.ClickhouseRepo, loggers: [Ecto.LogEntry]
+config :plausible, Plausible.ClickhouseRepo, loggers: [Ecto.LogEntry]
 
 config :plausible, Plausible.Repo,
   timeout: 300_000,
