@@ -4,16 +4,16 @@ set -o errexit
 
 echo "🚀 Let's build Plausible for $MIX_ENV"
 
-# mix local.rebar --force
-# echo "✅ Install rebar3"
-# mix local.hex --force
-# echo "✅ Install hex"
+mix local.rebar --force
+echo "✅ Install rebar3"
+mix local.hex --force
+echo "✅ Install hex"
 
-# mix deps.get --only prod
-# echo "✅ Get deps of Elixir"
+mix deps.get --only prod
+echo "✅ Get deps of Elixir"
 
-# MIX_ENV=prod mix compile
-# echo "✅ Compile Beam"
+MIX_ENV=prod mix compile
+echo "✅ Compile Beam"
 
 CLICKHOUSE_URL="http://$CLICKHOUSE_DATABASE_HOST:8123"
 echo "Check clickhouse service availibility on $CLICKHOUSE_URL"
