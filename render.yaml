@@ -21,7 +21,7 @@ services:
       sizeGB: 10
   - type: web
     # * prefix
-    name: cryptr_plausible
+    name: cryptr_plausible_app
     env: elixir
     repo: https://github.com/shark-up/plausible-analytics.git
     branch: render-deployment
