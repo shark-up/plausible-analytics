@@ -57,9 +57,4 @@ services:
           type: pserv
           name: cryptr_plausible_clickhouse_db
           property: host
-      - key: CLICKHOUSE_DATABASE_PORT
-        fromService:
-          type: pserv
-          name: cryptr_plausible_clickhouse_db
-          property: port
       - fromGroup: postmark
