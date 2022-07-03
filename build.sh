@@ -5,7 +5,11 @@ set -o errexit
 echo "🚀 Let's build Plausible for $MIX_ENV"
 
 CLICKHOUSE_URL="http://$CLICKHOUSE_DATABASE_HOST:8123"
-curl $CLICKHOUSE_URL
+{
+  curl $CLICKHOUSE_URL
+} || {
+  echo "failed to curl"
+}
 
 mix local.rebar --force
 echo "✅ Install rebar3"
