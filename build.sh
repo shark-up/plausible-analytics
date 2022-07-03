@@ -18,23 +18,20 @@ echo "🚀 Let's build Plausible for $MIX_ENV"
 CLICKHOUSE_URL="http://$CLICKHOUSE_DATABASE_HOST:8123"
 echo "Check clickhouse service availibility on $CLICKHOUSE_URL"
 
-# RESP=$(curl --silent --output /dev/null --write-out "%{http_code}" $CLICKHOUSE_URL)
-
-# echo $RESP
 n=0
-until [ "$n" -ge 6 ]; do
+until [ "$n" -ge 8 ]; do
   {
     RESP=$(curl --silent --output /dev/null --write-out "%{http_code}" $CLICKHOUSE_URL)
     if [ $RESP -eq "200" ]; then
+      echo "Clickhouse service is available"
       break
     fi
   } || {
     echo "Clickhouse service is unvailable"
   }
-  echo "⏱️ Retry n°$n: Ping the Clickhouse service"
-
+  sleep 15
   n=$((n+1)) 
-  sleep 10
+  echo "⏱️ Retry n°$n: Ping the Clickhouse service"
 done
 
 mix ecto.create
