@@ -16,16 +16,16 @@ MIX_ENV=prod mix compile
 echo "✅ Compile Beam"
 
 CLICKHOUSE_URL="http://$CLICKHOUSE_DATABASE_HOST:8123"
-echo "Check clickhouse service availibility on $CLICKHOUSE_DATABASE_HOST"
+echo "Check clickhouse service availibility on $CLICKHOUSE_URL"
 
-RESP=$(curl --silent --output /dev/null --write-out "%{http_code}\n" $CLICKHOUSE_URL)
+RESP=$(curl --silent --output /dev/null --write-out "%{http_code}" $CLICKHOUSE_URL)
 
 echo $RESP
 # n=0
 # until [ "$n" -ge 6 ]; do
 #   RESP=$(curl --silent --output /dev/null --write-out "%{http_code}\n" $CLICKHOUSE_URL)
 
-#   if [ $RESP -eq 200 ]; then
+#   if [ $RESP -eq "200" ]; then
 #     break
 #   fi
 
