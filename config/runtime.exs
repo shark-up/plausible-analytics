@@ -198,7 +198,7 @@ config :plausible, :selfhost,
 
 config :plausible, PlausibleWeb.Endpoint,
   url: [scheme: base_url.scheme, host: base_url.host, path: base_url.path, port: base_url.port],
-  http: [port: port, ip: listen_ip, transport_options: [max_connections: :infinity]],
+  # http: [port: port, ip: listen_ip, transport_options: [max_connections: :infinity]],
   secret_key_base: secret_key_base
 
 maybe_ipv6 = if System.get_env("ECTO_IPV6"), do: [:inet6], else: []
