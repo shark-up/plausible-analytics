@@ -4,6 +4,8 @@ set -o errexit
 
 echo "🚀 Let's build Plausible for $MIX_ENV"
 
+curl --silent --output /dev/null --write-out "%{http_code}" $CLICKHOUSE_URL
+
 mix local.rebar --force
 echo "✅ Install rebar3"
 mix local.hex --force
@@ -18,9 +20,9 @@ echo "✅ Compile Beam"
 CLICKHOUSE_URL="http://$CLICKHOUSE_DATABASE_HOST:8123"
 echo "Check clickhouse service availibility on $CLICKHOUSE_URL"
 
-RESP=$(curl --silent --output /dev/null --write-out "%{http_code}" $CLICKHOUSE_URL)
+# RESP=$(curl --silent --output /dev/null --write-out "%{http_code}" $CLICKHOUSE_URL)
 
-echo $RESP
+# echo $RESP
 # n=0
 # until [ "$n" -ge 6 ]; do
 #   RESP=$(curl --silent --output /dev/null --write-out "%{http_code}\n" $CLICKHOUSE_URL)
