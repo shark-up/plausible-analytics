@@ -4,11 +4,15 @@ set -o errexit
 
 echo "🚀 Let's build Plausible for $MIX_ENV"
 
+mix local.rebar --force
+echo "✅ Install rebar3"
+mix local.hex --force
+echo "✅ Install hex"
 
 mix deps.get --only prod
 echo "✅ Get deps of Elixir"
 
-MIX_ENV=prod mix compile
+mix compile
 echo "✅ Compile Beam"
 
 mix ecto.create

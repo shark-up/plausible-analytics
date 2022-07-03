@@ -1,9 +1,9 @@
 import Config
 import Plausible.ConfigHelpers
 
-if config_env() in [:dev, :test] do
+# if config_env() in [:dev, :test] do
   Envy.load(["config/.env.#{config_env()}"])
-end
+# end
 
 config_dir = System.get_env("CONFIG_DIR", "/run/secrets")
 
@@ -198,6 +198,7 @@ config :plausible, :selfhost,
 
 config :plausible, PlausibleWeb.Endpoint,
   url: [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
+  server: true,
 # [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
   # url: [scheme: base_url.scheme, host: base_url.host, path: base_url.path, port: base_url.port],
   # http: [port: port, ip: listen_ip, transport_options: [max_connections: :infinity]],

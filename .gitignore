@@ -60,3 +60,5 @@ plausible-report.xml
 /priv/plts/*.plt.hash
 priv/geodb/dbip-country.mmdb
 priv/geonames.csv
+
+.env.prod
