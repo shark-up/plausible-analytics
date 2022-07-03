@@ -32,6 +32,8 @@ services:
     envVars:
       - key: SELFHOST
         value: true
+      - key: ENABLE_EMAIL_VERIFICATION
+        value: false
       - key: ENVIRONMENT
         value: prod
       - key: ELIXIR_VERSION
