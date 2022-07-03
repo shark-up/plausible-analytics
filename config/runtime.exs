@@ -24,7 +24,7 @@ listen_ip =
 # System.get_env does not accept a non string default
 port = get_var_from_path_or_env(config_dir, "PORT") || 8000
 
-base_url = get_var_from_path_or_env(config_dir, "BASE_URL") || System.get_env("RENDER_EXTERNAL_URL")
+base_url = System.get_env("RENDER_EXTERNAL_URL") || get_var_from_path_or_env(config_dir, "BASE_URL")
 
 if !base_url do
   raise "BASE_URL configuration option is required. See https://plausible.io/docs/self-hosting-configuration#server"
@@ -447,25 +447,25 @@ config :logger,
   level: log_level,
   backends: [:console]
 
-# if honeycomb_api_key && honeycomb_dataset do
-#   sample_rate = if env == "prod", do: 0.01, else: 1.0
+if honeycomb_api_key && honeycomb_dataset do
+  sample_rate = if env == "prod", do: 0.01, else: 1.0
 
-#   config :opentelemetry,
-#     sampler: {:parent_based, %{root: {:trace_id_ratio_based, sample_rate}}},
-#     resource: [service: %{name: "plausible"}],
-#     span_processor: :batch,
-#     exporter: :otlp
+  config :opentelemetry,
+    sampler: {:parent_based, %{root: {:trace_id_ratio_based, sample_rate}}},
+    resource: [service: %{name: "plausible"}],
+    span_processor: :batch,
+    exporter: :otlp
 
-#   config :opentelemetry_exporter,
-#     otlp_protocol: :grpc,
-#     otlp_endpoint: 'https://api.honeycomb.io:443',
-#     otlp_headers: [
-#       {"x-honeycomb-team", honeycomb_api_key},
-#       {"x-honeycomb-dataset", honeycomb_dataset}
-#     ]
-# else
-#   config :opentelemetry, sampler: {:parent_based, %{root: {:trace_id_ratio_based, 0.0}}}
-# end
+  config :opentelemetry_exporter,
+    otlp_protocol: :grpc,
+    otlp_endpoint: 'https://api.honeycomb.io:443',
+    otlp_headers: [
+      {"x-honeycomb-team", honeycomb_api_key},
+      {"x-honeycomb-dataset", honeycomb_dataset}
+    ]
+else
+  config :opentelemetry, sampler: {:parent_based, %{root: {:trace_id_ratio_based, 0.0}}}
+end
 
 config :tzdata,
        :data_dir,
