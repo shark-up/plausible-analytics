@@ -197,7 +197,9 @@ config :plausible, :selfhost,
   disable_registration: if(!disable_auth, do: disable_registration, else: false)
 
 config :plausible, PlausibleWeb.Endpoint,
-  url: [scheme: base_url.scheme, host: base_url.host, path: base_url.path, port: base_url.port],
+  url: [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
+# [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
+  # url: [scheme: base_url.scheme, host: base_url.host, path: base_url.path, port: base_url.port],
   # http: [port: port, ip: listen_ip, transport_options: [max_connections: :infinity]],
   secret_key_base: secret_key_base
 
