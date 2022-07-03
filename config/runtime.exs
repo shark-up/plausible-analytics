@@ -206,7 +206,7 @@ config :plausible, :selfhost,
 host = System.get_env("PHX_HOST") || System.get_env("RENDER_SERVICE_NAME") || "example.com"
 port = String.to_integer(System.get_env("PORT") || "4000")
 
-config :ch_debug, ChDebugWeb.Endpoint,
+config :ch_debug, PlausibleWeb.Endpoint,
   url: [host: host, port: 443],
   http: [
     # Enable IPv6 and bind on all interfaces.
