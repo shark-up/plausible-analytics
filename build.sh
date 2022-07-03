@@ -4,6 +4,7 @@ set -o errexit
 
 echo "🚀 Let's build Plausible for $MIX_ENV"
 
+CLICKHOUSE_URL="http://$CLICKHOUSE_DATABASE_HOST:8123"
 curl --silent --output /dev/null --write-out "%{http_code}" $CLICKHOUSE_URL
 
 mix local.rebar --force
