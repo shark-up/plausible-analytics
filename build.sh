@@ -12,12 +12,12 @@ echo "✅ Install hex"
 mix deps.get --only prod
 echo "✅ Get deps of Elixir"
 
-mix compile
+MIX_ENV=prod mix compile
 echo "✅ Compile Beam"
 
 mix ecto.create
 mix ecto.migrate
-echo "✅ Update database"
+echo "✅ Databases"
 
 npm install --prefix ./tracker
 npm install --prefix ./assets

@@ -196,13 +196,28 @@ config :plausible, :selfhost,
   enable_email_verification: enable_email_verification,
   disable_registration: if(!disable_auth, do: disable_registration, else: false)
 
-config :plausible, PlausibleWeb.Endpoint,
-  url: [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
-  server: true,
-# [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
-  # url: [scheme: base_url.scheme, host: base_url.host, path: base_url.path, port: base_url.port],
-  # http: [port: port, ip: listen_ip, transport_options: [max_connections: :infinity]],
+# config :plausible, PlausibleWeb.Endpoint,
+#   url: [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
+#   server: true,
+# # [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
+#   # url: [scheme: base_url.scheme, host: base_url.host, path: base_url.path, port: base_url.port],
+#   # http: [port: port, ip: listen_ip, transport_options: [max_connections: :infinity]],
+#   secret_key_base: secret_key_base
+host = System.get_env("PHX_HOST") || System.get_env("RENDER_SERVICE_NAME") || "example.com"
+port = String.to_integer(System.get_env("PORT") || "4000")
+
+config :ch_debug, ChDebugWeb.Endpoint,
+  url: [host: host, port: 443],
+  http: [
+    # Enable IPv6 and bind on all interfaces.
+    # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
+    # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
+    # for details about using IPv6 vs IPv4 and loopback vs public addresses.
+    ip: {0, 0, 0, 0, 0, 0, 0, 0},
+    port: port
+  ],
   secret_key_base: secret_key_base
+
 
 maybe_ipv6 = if System.get_env("ECTO_IPV6"), do: [:inet6], else: []
 
