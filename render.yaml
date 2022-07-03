@@ -30,6 +30,8 @@ services:
     buildCommand: ./build.sh
     startCommand: mix phx.server
     envVars:
+      - key: SELFHOST
+        value: true
       - key: ENVIRONMENT
         value: prod
       - key: ELIXIR_VERSION

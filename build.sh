@@ -15,6 +15,23 @@ echo "✅ Get deps of Elixir"
 MIX_ENV=prod mix compile
 echo "✅ Compile Beam"
 
+CLICKHOUSE_URL="http://$CLICKHOUSE_DATABASE_HOST:8123"
+
+n=0
+until [ "$n" -ge 6 ]
+do
+  RESP=$(curl --silent --output /dev/null --write-out "%{http_code}\n" $CLICKHOUSE_URL)
+
+  if [ $RESP -eq 200 ]
+    then
+      break
+    else
+      echo "Clickhouse service is unvailable ($RESP)"
+    fi
+  echo "⏱️ Retry n°$n: Ping the Clickhouse service"
+   n=$((n+1)) 
+   sleep 10
+done
 mix ecto.create
 mix ecto.migrate
 echo "✅ Databases"
