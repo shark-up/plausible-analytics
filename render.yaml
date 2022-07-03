@@ -1,7 +1,7 @@
 # replace prefix "cryptr_" by "CUSTOMER_NAME_"
 databases:
   # * prefix
-  - name: cryptr_plausible_analytics
+  - name: cryptr_plausible_db
     databaseName: plausible_prod
     ipAllowList: []
     postgresMajorVersion: 13
@@ -43,7 +43,7 @@ services:
       - key: DATABASE_URL
         fromDatabase:
           # * prefix
-          name: cryptr_plausible_analytics
+          name: cryptr_plausible_db
           type: pserv
           property: connectionString
       - key: SECRET_KEY_BASE

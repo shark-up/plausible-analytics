@@ -83,9 +83,7 @@ ch_db_url =
     "CLICKHOUSE_DATABASE_URL",
     "http://plausible_events_db:8123/plausible_events_db"
   )
-  clickhouse_database_host = System.get_env("CLICKHOUSE_DATABASE_HOST") # || raise "Render instance needs CLICKHOUSE_DATABASE_HOST var env"
-  clickhouse_database_port = System.get_env("CLICKHOUSE_DATABASE_PORT") # || raise "Render instance needs CLICKHOUSE_DATABASE_PORT var env"
-
+  clickhouse_database_host = System.get_env("CLICKHOUSE_DATABASE_HOST") || (System.get_env("RENDER") == "true" && raise("Render instance needs CLICKHOUSE_DATABASE_HOST var env"))
 
 {ch_flush_interval_ms, ""} =
   config_dir
@@ -245,14 +243,12 @@ config :plausible, :google,
   client_id: google_cid,
   client_secret: google_secret
 
-# plausible_url = if System.get_env("RENDER") == "true", do: "http://#{clickhouse_database_host}:#{clickhouse_database_port}", else: ch_db_url
-# |> IO.inspect(label: "plausible_url")
-# http://cryptr-plausible-clickhouse-db:8123, path should be a database name. The parsed URL is: %URI{authority: "cryptr-plausible-clickhouse-db:8123", fragment: nil, host: "cryptr-plausible-clickhouse-db", path: nil, port: 8123, query: nil, scheme: "http", userinfo: nil}
+plausible_url = if System.get_env("RENDER") == "true", do: "http://#{clickhouse_database_host}:8123/plausible_events_db", else: ch_db_url
 config :plausible, Plausible.ClickhouseRepo,
   loggers: [Ecto.LogEntry],
   queue_target: 500,
   queue_interval: 2000,
-  url: "http://cryptr-plausible-clickhouse-db:8123/plausible_events_db",
+  url: plausible_url,
   # database: "plausible_events_db",
   flush_interval_ms: ch_flush_interval_ms,
   max_buffer_size: ch_max_buffer_size
