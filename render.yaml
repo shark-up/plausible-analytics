@@ -56,4 +56,9 @@ services:
           type: pserv
           name: plausible_clickhouse_db
           property: host
-      - fromGroup: postmark
+      - key: MAILER_ADAPTER
+        value: Bamboo.PostmarkAdapter
+      - key: MAILER_EMAIL
+        sync: false
+      - key: POSTMARK_API_KEY
+        sync: false
