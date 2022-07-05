@@ -1,0 +1,59 @@
+databases:
+  - name: plausible_db
+    databaseName: plausible_prod
+    ipAllowList: []
+    postgresMajorVersion: 13
+    plan: Standard
+    region: frankfurt
+services:
+  - type: pserv
+    name: plausible_clickhouse_db
+    env: docker
+    dockerfilePath: ./clickhouse/Dockerfile
+    plan: standard
+    region: frankfurt
+    disk:
+      name: data
+      mountPath: /var/lib/clickhouse
+      sizeGB: 10
+  - type: web
+    name: plausible_app
+    env: elixir
+    repo: https://github.com/shark-up/plausible-analytics.git
+    branch: render-one-click
+    region: frankfurt
+    plan: standard
+    buildCommand: ./render_build.sh
+    startCommand: mix phx.server
+    envVars:
+      - key: SELFHOST
+        value: true
+      - key: ENABLE_EMAIL_VERIFICATION
+        value: false
+      - key: ENVIRONMENT
+        value: prod
+      - key: ELIXIR_VERSION
+        value: 1.13.4
+      - key: ERLANG_VERSION
+        value: 24.3.3
+      - key: NODE_VERSION
+        value: 16.3.0
+      - key: PYTHON_VERSION
+        value: 3.9.12
+      - key: DATABASE_URL
+        fromDatabase:
+          name: plausible_db
+          type: pserv
+          property: connectionString
+      - key: SECRET_KEY_BASE
+        sync: false
+      - key: POOL_SIZE
+        value: 15
+      - key: CLICKHOUSE_DATABASE_NAME
+        value: plausible_events_db
+      - key: CLICKHOUSE_DATABASE_HOST
+        fromService:
+          type: pserv
+          name: plausible_clickhouse_db
+          property: host
+      - fromGroup: postmark

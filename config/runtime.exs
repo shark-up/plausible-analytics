@@ -24,7 +24,7 @@ listen_ip =
 # System.get_env does not accept a non string default
 port = get_var_from_path_or_env(config_dir, "PORT") || 8000
 
-base_url = get_var_from_path_or_env(config_dir, "BASE_URL")
+base_url = System.get_env("RENDER_EXTERNAL_URL") || get_var_from_path_or_env(config_dir, "BASE_URL")
 
 if !base_url do
   raise "BASE_URL configuration option is required. See https://plausible.io/docs/self-hosting-configuration#server"
@@ -83,6 +83,8 @@ ch_db_url =
     "CLICKHOUSE_DATABASE_URL",
     "http://plausible_events_db:8123/plausible_events_db"
   )
+clickhouse_database_host = System.get_env("CLICKHOUSE_DATABASE_HOST") || (System.get_env("RENDER") == "true" && raise("Render instance needs CLICKHOUSE_DATABASE_HOST var env"))
+ch_db_url = if System.get_env("RENDER") == "true", do: "http://#{clickhouse_database_host}:8123/plausible_events_db", else: ch_db_url
 
 {ch_flush_interval_ms, ""} =
   config_dir
@@ -195,10 +197,20 @@ config :plausible, :selfhost,
   enable_email_verification: enable_email_verification,
   disable_registration: if(!disable_auth, do: disable_registration, else: false)
 
-config :plausible, PlausibleWeb.Endpoint,
-  url: [scheme: base_url.scheme, host: base_url.host, path: base_url.path, port: base_url.port],
-  http: [port: port, ip: listen_ip, transport_options: [max_connections: :infinity]],
-  secret_key_base: secret_key_base
+if (System.get_env("RENDER") == "true") do
+  config :plausible, PlausibleWeb.Endpoint,
+    url: [host: System.get_env("RENDER_SERVICE_NAME"), port: 443],
+    http: [
+      ip: {0, 0, 0, 0, 0, 0, 0, 0},
+      port: String.to_integer(System.get_env("PORT"))
+    ],
+    secret_key_base: secret_key_base
+else
+  config :plausible, PlausibleWeb.Endpoint,
+    url: [scheme: base_url.scheme, host: base_url.host, path: base_url.path, port: base_url.port],
+    http: [port: port, ip: listen_ip, transport_options: [max_connections: :infinity]],
+    secret_key_base: secret_key_base
+end
 
 maybe_ipv6 = if System.get_env("ECTO_IPV6"), do: [:inet6], else: []
 
