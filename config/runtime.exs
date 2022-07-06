@@ -199,8 +199,8 @@ config :plausible, :selfhost,
 
 if (System.get_env("RENDER") == "true") do
   config :plausible, PlausibleWeb.Endpoint,
-    url: [host: System.get_env("RENDER_SERVICE_NAME"), port: 443],
-    http: [
+  url: [scheme: base_url.scheme, host: base_url.host, path: base_url.path, port: base_url.port],
+  http: [
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: String.to_integer(System.get_env("PORT"))
     ],
