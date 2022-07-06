@@ -59,4 +59,8 @@ plausible-report.xml
 /priv/plts/*.plt
 /priv/plts/*.plt.hash
 
+# To test local prod before deployment
 .env.prod
+
+# Country & City DB
+/priv/geodb/
