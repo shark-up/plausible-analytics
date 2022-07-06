@@ -49,7 +49,7 @@ wget https://s3.eu-central-1.wasabisys.com/plausible-application/geonames.csv
 mv geonames.csv ./priv/geonames.csv
 echo "✅ geonames.csv"
 
-mix download_country_database
+mix download_country_database_geolite
 echo "✅ Country Database"
 
 echo "✨ Build done ✨"
